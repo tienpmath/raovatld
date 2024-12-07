@@ -21,13 +21,15 @@ export async function GET() {
     scope: clientConfig.scope!,
     code_challenge,
     code_challenge_method: clientConfig.code_challenge_method,
-    //"__tenant": session.tenantId === 'default' ? "" : session.tenantId!,
+    __tenant: session.tenantId === 'default' ? '' : session.tenantId!,
   }
+
   let state!: string
   if (!openIdClientConfig.serverMetadata().supportsPKCE()) {
     state = client.randomState()
     parameters.state = state
   }
+  console.log(session)
   let redirectTo = client.buildAuthorizationUrl(openIdClientConfig, parameters)
   session.code_verifier = code_verifier
   session.state = state
